@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.5)
 
 project(HemeLBDependencies)
 include(ExternalProject)
@@ -198,17 +198,17 @@ ExternalProject_Add(ParMETIS
 # -------------------
 option(CTEMPLATE_PATCH_VACOPY "Define va_copy macro through patch" OFF)
 option(CTEMPLATE_PATCH_ALIGN "Define GTL align macros as gnu" OFF)
-option(CTEMPLATE_PATCH_PYTHON "Patch Generate FSM and FSM Config to use Python3" ON)
+option(CTEMPLATE_PATCH_PYTHON "Patch Generate FSM and FSM Config to use Python3" OFF)
 
 message("Building CTEMPLATE")
 
-find_file(CTEMPLATE_TARBALL ctemplate-2.3.tar.gz
+find_file(CTEMPLATE_TARBALL ctemplate-2.4.tar.gz
 	DOC "Path to download CTEMPLATE (can be url http://)"
 	PATHS ${HEMELB_DEPENDENCIES_PATH}/src)
 
 if(NOT CTEMPLATE_TARBALL)
 	message("No CTEMPLATE source found, will download")
-	set(CTEMPLATE_TARBALL http://github.com/OlafvdSpek/ctemplate/archive/ctemplate-2.3.tar.gz
+	set(CTEMPLATE_TARBALL http://github.com/OlafvdSpek/ctemplate/archive/refs/tags/ctemplate-2.4.tar.gz
 		CACHE STRING "Path to download CTEMPLATE (can be local file://)" FORCE)
 endif()
 
@@ -233,7 +233,7 @@ endif()
 ExternalProject_Add(CTemplate
 	INSTALL_DIR			${HEMELB_DEPENDENCIES_INSTALL_PATH}
 	URL					${CTEMPLATE_TARBALL}
-	CONFIGURE_COMMAND	<SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${CTEMPLATE_CONFIGURE_OPTIONS}
+	CONFIGURE_COMMAND	<SOURCE_DIR>/autogen.sh && <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${CTEMPLATE_CONFIGURE_OPTIONS}
 	BUILD_COMMAND		make -j${HEMELB_SUBPROJECT_MAKE_JOBS}
 	PATCH_COMMAND		${PATCH_COMMAND_ALIGN} && ${PATCH_COMMAND_VACOPY}  && ${PATCH_COMMAND_PYTHON}
 	BUILD_IN_SOURCE		1)
