@@ -12,6 +12,11 @@ MODULES(){
 #Module environment on SuperMUC-NG, default compilers are fine
 #module load cmake
 
+#Module environment on Aurora, default compilers are fine
+module load cmake
+module load python
+module load boost
+
 #module list
 #Export compiler shortcuts as named on given machine
 export CC=mpicc
@@ -80,5 +85,5 @@ cd ../..
 
 MODULES
 DEPbuild
-SRCbuild
-SRCbuild_Benchmark
+#SRCbuild
+#SRCbuild_Benchmark
