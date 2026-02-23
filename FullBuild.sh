@@ -27,6 +27,7 @@ MODULES(){
 
 	export USE_SSE3="ON"
 	export USE_AVX2="ON"
+	export USE_AVX512="OFF"
 }
 
 DEPbuild(){
@@ -112,6 +113,13 @@ SRCbuild(){
 		-DHEMELB_USE_GMYPLUS=OFF -DHEMELB_USE_MPI_WIN=OFF \
 		-DHEMELB_USE_SSE3="${USE_SSE3}" \
 		-DHEMELB_USE_AVX2="${USE_AVX2}" \
+		-DHEMELB_USE_AVX512="${USE_AVX512}" \
+		-DHEMELB_OPTIMISAION="-O3 -g" \
+		-DHEMELB_ALLTOALL_IMPLEMENTATION="Separated" \
+		-DHEMELB_GATHERS_IMPLEMENTATION="Separated" \
+		-DHEMELB_POINTPOINT_IMPLEMENTATION="Coalesce" \
+		-DHEMELB_USE_MPI_CALL=ON \
+		-DHEMELB_USE_PARMETIS=ON \
 		"$@"
 	cmake --build src/build -j
 	cmake --install src/build
